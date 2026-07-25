@@ -5,7 +5,9 @@ import com.chaitu.question_service.model.Question;
 import com.chaitu.question_service.model.QuestionWrapper;
 import com.chaitu.question_service.model.Response;
 import com.chaitu.question_service.service.QuestionService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,10 @@ public class QuestionController {
 
     @Autowired
     QuestionService questionService;
+
+
+    @Autowired
+    Environment environment;
 
     @GetMapping("allQuestions")
     public ResponseEntity<List<Question>> getAllQuestions(){
@@ -40,10 +46,11 @@ public class QuestionController {
         return questionService.getQuestionsForQuiz(categoryName,numQuestions);
     }
     //generate
-    //get/questios (questionid)
+    //get/questions (questionid)
 
     @PostMapping("getQuestions")
     public ResponseEntity<List<QuestionWrapper>> getQuestionsFromId(@RequestBody List<Integer> questionIds){
+        System.out.println(environment.getProperty("local.server.port"));
         return questionService.getQuestionsFromId(questionIds);
     }
     //getScore
